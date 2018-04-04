@@ -2,8 +2,8 @@ group 'bnr'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.1.4-3'
-    ext.ktor_version = '0.4.0'
+    ext.kotlin_version = '1.2.31'
+    ext.ktor_version = '0.9.1'
 
     repositories {
         mavenCentral()
@@ -17,7 +17,7 @@ apply plugin: 'java'
 apply plugin: 'kotlin'
 apply plugin: 'application'
 
-mainClassName = 'org.jetbrains.ktor.netty.DevelopmentHost'
+mainClassName = 'io.ktor.server.netty.DevelopmentEngine'
 
 targetCompatibility = 1.8
 sourceCompatibility = 1.8
@@ -31,9 +31,9 @@ repositories {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile "org.jetbrains.ktor:ktor-core:$ktor_version"
-    compile "org.jetbrains.ktor:ktor-netty:$ktor_version"
-    compile "org.jetbrains.ktor:ktor-gson:$ktor_version"
+    compile "io.ktor:ktor-server-core:$ktor_version"
+    compile "io.ktor:ktor-server-netty:$ktor_version"
+    compile "io.ktor:ktor-gson:$ktor_version"
     compile "org.slf4j:jul-to-slf4j:1.7.12"
     compile "ch.qos.logback:logback-classic:1.2.1"
 }

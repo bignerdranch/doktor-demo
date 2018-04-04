@@ -1,26 +1,38 @@
+package bnr
+
 import com.google.gson.Gson
-import org.jetbrains.ktor.application.Application
-import org.jetbrains.ktor.application.install
-import org.jetbrains.ktor.features.CallLogging
-import org.jetbrains.ktor.features.DefaultHeaders
-import org.jetbrains.ktor.gson.GsonSupport
-import org.jetbrains.ktor.http.ContentType
-import org.jetbrains.ktor.response.respondText
-import org.jetbrains.ktor.routing.Routing
-import org.jetbrains.ktor.routing.get
+import io.ktor.application.Application
+import io.ktor.application.call
+import io.ktor.application.install
+import io.ktor.features.CallLogging
+import io.ktor.features.ContentNegotiation
+import io.ktor.features.DefaultHeaders
+import io.ktor.gson.GsonConverter
+import io.ktor.gson.gson
+import io.ktor.http.ContentType.Application.Json
+import io.ktor.response.respondText
+import io.ktor.routing.Routing
+import io.ktor.routing.get
+import java.text.DateFormat
 
 data class Who(val name: String, val planet: String)
 
 fun Application.main() {
     install(DefaultHeaders)
     install(CallLogging)
-    install(GsonSupport)
+    install(ContentNegotiation) {
+        gson {
+            register(Json, GsonConverter())
+            setDateFormat(DateFormat.LONG)
+            setPrettyPrinting()
+        }
+    }
     install(Routing) {
         get("/") {
             val doktor = Who("Doktor", "Gallifrey")
             val gson = Gson()
             val json = gson.toJson(doktor)
-            call.respondText(json, ContentType.Application.Json)
+            call.respondText(json, Json)
         }
     }
 }
